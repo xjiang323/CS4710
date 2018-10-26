@@ -1,8 +1,7 @@
 from fractions import Fraction
-import sys
 import math
 
-fname = sys.argv[1]
+fname = "3hmg.pdb"
 chain1 = input("Please enter the first chain: ")
 chain2 = input("Please enter the second chain: ")
 threshold = input("Please enter the threshold: ")
