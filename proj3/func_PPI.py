@@ -13,9 +13,9 @@ def get_int(chain1,chain2):
     key2 = get_fraction(chain2,int2)
     get_closest_AA(chain1,key1,int1)
     get_closest_AA(chain2,key2,int2)
-    
+
 def get_fraction(chain, intact):
-    helix, sheet = get_helix_and_sheet(chain)    
+    helix, sheet = get_helix_and_sheet(chain)
     intact_keys= []
     count1 = 0
     count2 = 0
@@ -32,7 +32,7 @@ def get_fraction(chain, intact):
     print(str(percent1) + " of the interface amino acids lying on alpha helices")
     print(str(percent2) + " of the interface amino acids lying on belta sheets")
     return intact_keys
-    
+
 def get_interacting(chain1, chain2):
     dic1 = get_dic(chain1)
     dic2 = get_dic(chain2)
