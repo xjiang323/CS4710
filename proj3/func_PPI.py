@@ -82,24 +82,10 @@ def get_closest_AA(chain,intact_keys,intact):
     print(chain)
     intact_keys.sort()
     n = len(intact_keys)
-    for i in range(n):
+    for i in range(n-1):
         thisKey = intact_keys[i]
-        if i == 0:
-            nextKey = intact_keys[i+1]
-            distance = abs(thisKey - nextKey)
-            print(intact[str(thisKey)] + ": closest " + intact[str(nextKey)] + " at distance " + str(distance))
-        elif i == n-1:
-            previousKey = intact_keys[i-1]
-            distance = abs(thisKey - previousKey)
-            print(intact[str(thisKey)] + ": closest " + intact[str(previousKey)] + " at distance " + str(distance))
-        else:
-            nextKey = intact_keys[i+1]
-            previousKey = intact_keys[i-1]
-            predistance = abs(thisKey - previousKey)
-            suffdistance = abs(thisKey - nextKey)
-            if predistance >= suffdistance:
-                print(intact[str(thisKey)] + ": closest " + intact[str(nextKey)] + " at distance " + str(suffdistance))
-            else:
-                print(intact[str(thisKey)] + ": closest " + intact[str(previousKey)] + " at distance " + str(predistance))
+        nextKey = intact_keys[i+1]
+        distance = abs(thisKey - nextKey)
+        print(intact[str(thisKey)] + ": closest " + intact[str(nextKey)] + " at distance " + str(distance))
 
 get_int(chain1,chain2)
