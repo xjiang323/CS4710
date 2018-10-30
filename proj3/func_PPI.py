@@ -26,8 +26,8 @@ def get_fraction(chain, intact):
             count1 += 1
         if k in sheet:
             count2 += 1
-    percent1 = Fraction(count1,len(intact))
-    percent2 = Fraction(count2,len(intact))
+    percent1 = Fraction(count1,len(helix))
+    percent2 = Fraction(count2,len(sheet))
     print(chain)
     print(str(percent1) + " of the interface amino acids lying on alpha helices")
     print(str(percent2) + " of the interface amino acids lying on belta sheets")
