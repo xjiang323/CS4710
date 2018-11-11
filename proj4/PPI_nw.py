@@ -1,39 +1,38 @@
 import numpy as np
 
 def get_protein_to_index(fname):
-    dic = {}
+    dic1 = {}
     fhand = open(fname,'r')
     count = 0
     for line in fhand:
         edge = line.split()
-        if edge[0] in dic.keys():pass
+        if edge[0] in dic1.keys():pass
         else:
             count += 1
-            dic[edge[0]] = count-1
-        if edge[2] in dic.keys():pass
+            dic1[edge[0]] = count-1
+        if edge[2] in dic1.keys():pass
         else:
             count += 1
-            dic[edge[2]] = count-1
-    return dic
+            dic1[edge[2]] = count-1
+    return dic1
 
 def get_new_dic(fname):
-    dic = {}
+    dic2 = {}
     fhand = open(fname,'r')
     count = 0
     for line in fhand:
         edge = line.split()
-        if edge[0] in dic.values():pass
+        if edge[0] in dic2.values():pass
         else:
             count += 1
-            dic[count-1] = edge[0]
-        if edge[2] in dic.values():pass
+            dic2[count-1] = edge[0]
+        if edge[2] in dic2.values():pass
         else:
             count += 1
-            dic[count-1] = edge[2]
-    return dic
+            dic2[count-1] = edge[2]
+    return dic2
 
-def get_matrix(fname):
-    dic = get_protein_to_index(fname)
+def get_matrix(fname,dic):
     Matrix = np.zeros((len(dic),len(dic)), dtype=int)
     fhand = open(fname,'r')
     for line in fhand:
@@ -65,42 +64,42 @@ def get_degree_dist(M):
     for i in range(len(u_M)):
         print("k=" + str(u_M[i]) + " p=" + str(degree_lst[i]))
 
-def get_cliques(M):
-    dic = get_new_dic("kshv.sif")
-    n = len(M[:,1])
-    for i in range(n):
-        for j in range(i,n):
-            for k in range(j,n):
+def get_cliques(M,dic):
+    for i in range(len(dic)):
+        for j in range(i,len(dic)):
+            for k in range(j,len(dic)):
                 if M[i,j] == 1 and M[i,k] == 1 and M[j,k] == 1:
                     print(str(dic[i]) + "," + str(dic[j]) + "," +str(dic[k]))
 
-def get_fw_al(fname):
-    dic = get_protein_to_index(fname)
-    M = np.full((len(dic),len(dic)), np.inf)
-    fhand = open(fname,'r')
-    for line in fhand:
-        edge = line.split()
-        if edge[0] == edge[2]:
-            continue
-        else:
-            M[dic[edge[0]],dic[edge[2]]] = 1
-            M[dic[edge[2]],dic[edge[0]]] = 1
-    for i in range(len(dic)):
-        M[i,i] = 0
-    for k in range(len(dic)):
-        for i in range(len(dic)):
-            for j in range(len(dic)):
+def get_fw_al(Matrix,dic1,dic2):
+    M = np.full((len(dic1),len(dic1)), np.inf)
+    idx = (Matrix == 1)
+    M[idx] = 1
+    for k in range(len(dic1)):
+        for i in range(len(dic1)):
+            for j in range(len(dic1)):
                 if M[i,j] > M[i,k] + M[k,j]:
                     M[i,j] = M[i,k] + M[k,j]
     X = np.sum((M == 2).astype(np.int), axis = 1)
     amax = np.amax(X)
     pmax = np.argmax(X)
-    dic = get_new_dic("kshv.sif")
-    print("Node " + str(dic[pmax]) + " has the largest neighborhood T2 and the size of T2 is " + str(amax))
+    print("Node " + str(dic2[pmax]) + " has the largest neighborhood T2 and the size of T2 is " + str(amax))
 
-Matrix = get_matrix("kshv.sif")
-get_degree_dist(Matrix)
-get_cliques(Matrix)
-get_fw_al("kshv.sif")
-#M = get_random_gragh(59,0.5)
-#get_degree_dist(M)
+def get_all(M,dic1,dic2):
+    get_degree_dist(M)
+    get_cliques(M,dic2)
+    get_fw_al(M,dic1,dic2)
+
+dic1 = get_protein_to_index("kshv.sif")
+dic2 = get_new_dic("kshv.sif")
+Matrix1 = get_matrix("kshv.sif",dic1)
+get_all(Matrix1,dic1,dic2)
+
+M = get_random_gragh(len(dic1),0.5)
+get_all(M,dic1,dic2)
+
+N = get_random_gragh(len(dic1),0.1)
+get_all(N,dic1,dic2)
+
+L = get_random_gragh(len(dic1),0.8)
+get_all(L,dic1,dic2)
