@@ -90,16 +90,14 @@ def get_all(M,dic1,dic2):
     get_cliques(M,dic2)
     get_fw_al(M,dic1,dic2)
 
-dic1 = get_protein_to_index("kshv.sif")
-dic2 = get_new_dic("kshv.sif")
-Matrix1 = get_matrix("kshv.sif",dic1)
-get_all(Matrix1,dic1,dic2)
-
-M = get_random_gragh(len(dic1),0.5)
-get_all(M,dic1,dic2)
-
-N = get_random_gragh(len(dic1),0.1)
-get_all(N,dic1,dic2)
-
-L = get_random_gragh(len(dic1),0.8)
-get_all(L,dic1,dic2)
+if __name__ == "__main__":
+    dic1 = get_protein_to_index("kshv.sif")
+    dic2 = get_new_dic("kshv.sif")
+    Matrix1 = get_matrix("kshv.sif",dic1)
+    get_all(Matrix1,dic1,dic2)
+    M = get_random_gragh(len(dic1),0.5)
+    get_all(M,dic1,dic2)
+    N = get_random_gragh(len(dic1),0.1)
+    get_all(N,dic1,dic2)
+    L = get_random_gragh(len(dic1),0.8)
+    get_all(L,dic1,dic2)
