@@ -48,6 +48,9 @@ def get_random_gragh(n,p):
     M = np.random.rand(n,n)
     M[M >= p] = 1
     M[M < p] = 0
+    for i in range(n):
+        if M[i,i] == 1:
+            M[i,i] = 0
     M = M.astype(np.int)
     return M
 
@@ -75,6 +78,8 @@ def get_fw_al(Matrix,dic1,dic2):
     M = np.full((len(dic1),len(dic1)), np.inf)
     idx = (Matrix == 1)
     M[idx] = 1
+    for i in range(len(dic1)):
+        M[i,i] = 0
     for k in range(len(dic1)):
         for i in range(len(dic1)):
             for j in range(len(dic1)):
