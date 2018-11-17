@@ -55,9 +55,41 @@ def get_fw_al(Matrix,dic1,dic2):
             for j in range(len(dic1)):
                 if M[i,j] > M[i,k] + M[k,j]:
                     M[i,j] = M[i,k] + M[k,j]
-    print(M)
+    C = np.reciprocal(np.sum(M, axis = 1))
+    O1 = np.argsort(C)
+    print("The top three nodes with highest closeness centrality value are:")
+    for i in [-1, -2, -3]:
+        print(str(dic2[O1[i]]) + "'s closeness centrality value is " + str(C[O1[i]]))
+    print("\n")
+
+    E = np.amax(M, axis = 1).astype(np.int)
+    O2 = np.argsort(E)
+    #print("The center of the gragh is " + str(dic2[O2[0]]) + "\n")
+
+    high = O1[-1]
+    low = O1[0]
+    return high, low
+
+def bfs_paths(Matrix, start, goal):
+    queue = [(start, [start])]
+    while queue:
+        (node, path) = queue.pop(0)
+        lst = Matrix[node,]
+        node_lst = np.where(lst == 1)[0]
+        for next_node in node_lst:
+            if next_node in path:
+                continue
+            elif next_node == goal:
+                return path + [next_node]
+            else:
+                queue.append((next_node, path + [next_node]))
 
 if __name__ == "__main__":
-    dic1 = get_protein_to_index("kshv.sif")
-    dic2 = get_new_dic("kshv.sif")
-    Matrix = get_matrix("kshv.sif",dic1)
+    f = "kshv.sif"
+    high, low = get_fw_al(get_matrix(f, get_protein_to_index(f)), get_protein_to_index(f), get_new_dic(f))
+    lt = bfs_paths(get_matrix(f, get_protein_to_index(f)), low, high)
+    path = ""
+    for i in lt:
+        path += get_new_dic(f)[i] + ", "
+    print("The shortest path between the node with lowest closeness centrality and the node with highest is: ")
+    print(path[:-2])
