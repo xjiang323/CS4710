@@ -63,9 +63,11 @@ def get_fw_al(Matrix,dic1,dic2):
     print("\n")
 
     E = np.amax(M, axis = 1).astype(np.int)
-    O2 = np.argsort(E)
-    #print("The center of the gragh is " + str(dic2[O2[0]]) + "\n")
-
+    E_min = np.amin(E)
+    O2 = np.where(E == E_min)[0]
+    for item in O2:
+        print("The center of the gragh is " + str(dic2[item]))
+    print("\n")
     high = O1[-1]
     low = O1[0]
     return high, low
